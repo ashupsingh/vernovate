@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, Send, Upload } from 'lucide-react';
+import { X, Send, Link as LinkIcon, Linkedin, Github } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './ui/Button';
 import Toast from './ui/Toast';
@@ -10,37 +10,18 @@ const ApplicationModal = ({ isOpen, onClose }) => {
         user_name: '',
         user_email: '',
         position: 'Software Developer',
-        resumeName: ''
+        other_role: '', // Added for "Other" specification
+        resume_link: '',
+        linkedin: '',
+        github: ''
     });
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const formRef = useRef();
-    const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleFileChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-
-            // Client-side validation: Allow up to 2MB as requested
-            if (file.size > 2 * 1024 * 1024) {
-                setToast({
-                    show: true,
-                    message: "File is too large. Max size is 2MB.",
-                    type: 'error'
-                });
-                // Clear the input
-                e.target.value = "";
-                setFormData({ ...formData, resumeName: '' });
-                return;
-            }
-
-            setFormData({ ...formData, resumeName: file.name });
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -52,46 +33,49 @@ const ApplicationModal = ({ isOpen, onClose }) => {
 
             setToast({
                 show: true,
-                message: "Application & Resume sent successfully!",
+                message: "Application sent successfully!",
                 type: 'success'
             });
 
             setTimeout(() => {
                 onClose();
                 setToast({ ...toast, show: false });
+                setFormData({
+                    user_name: '',
+                    user_email: '',
+                    position: 'Software Developer',
+                    other_role: '',
+                    resume_link: '',
+                    linkedin: '',
+                    github: ''
+                });
             }, 3000);
 
         } catch (error) {
             console.error(error);
-
-            // Specific error handling for file size limits
-            if (error?.status === 413 || (error?.text && error.text.includes('size limit'))) {
-                setToast({
-                    show: true,
-                    message: "File too large for server (Limit is often 50KB). Please use a smaller file.",
-                    type: 'error'
-                });
-            } else {
-                setToast({
-                    show: true,
-                    message: "Failed to submit application. Please try again.",
-                    type: 'error'
-                });
-            }
+            setToast({
+                show: true,
+                message: "Failed to submit application. Please try again.",
+                type: 'error'
+            });
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const triggerFileUpload = () => {
-        fileInputRef.current.click();
-    };
+    // Determine the display position for the email
+    const displayPosition = formData.position === 'Other'
+        ? `Other (${formData.other_role})`
+        : formData.position;
 
     const detailedMessage = `Name: ${formData.user_name}
 Email: ${formData.user_email}
-Position: ${formData.position}
+Position: ${displayPosition}
 
-(See attachment for Resume)`;
+LINKS:
+Resume (Public Drive Link): ${formData.resume_link}
+LinkedIn: ${formData.linkedin}
+GitHub: ${formData.github}`;
 
     return (
         <AnimatePresence>
@@ -117,7 +101,7 @@ Position: ${formData.position}
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 overflow-hidden"
+                        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 overflow-hidden max-h-[90vh] overflow-y-auto"
                     >
                         <button
                             onClick={onClose}
@@ -128,14 +112,16 @@ Position: ${formData.position}
 
                         <div className="text-center mb-8">
                             <h2 className="text-2xl font-bold mb-2 text-black">Join Our Team</h2>
-                            <p className="text-gray-600 text-sm">Send us your details and we'll be in touch.</p>
+                            <p className="text-gray-600 text-sm">Submit your links and we'll be in touch.</p>
                         </div>
 
                         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                             <input type="hidden" name="from_name" value={formData.user_name} />
                             <input type="hidden" name="from_email" value={formData.user_email} />
                             <input type="hidden" name="reply_to" value={formData.user_email} />
-                            <input type="hidden" name="subject" value={`Job Application: ${formData.position} - ${formData.user_name}`} />
+                            {/* We overwrite the subject to include position */}
+                            <input type="hidden" name="subject" value={`Job App: ${displayPosition} - ${formData.user_name}`} />
+                            {/* The all-important message field that captures everything */}
                             <textarea name="message" value={detailedMessage} className="hidden" readOnly />
 
                             <div>
@@ -185,31 +171,85 @@ Position: ${formData.position}
                                 </select>
                             </div>
 
+                            {/* Conditional "Other" Role Input */}
+                            <AnimatePresence>
+                                {formData.position === 'Other' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="pt-2">
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Specify Role</label>
+                                            <input
+                                                required={formData.position === 'Other'}
+                                                disabled={isSubmitting}
+                                                name="other_role"
+                                                value={formData.other_role}
+                                                onChange={handleChange}
+                                                type="text"
+                                                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-black focus:ring-2 focus:ring-vernovate-primary/50 focus:border-vernovate-primary outline-none transition-all disabled:opacity-50"
+                                                placeholder="e.g. Data Scientist"
+                                            />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* Resume Link */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Upload Resume/CV</label>
-                                <div
-                                    onClick={!isSubmitting ? triggerFileUpload : undefined}
-                                    className={`border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-vernovate-primary hover:bg-gray-50 transition-colors ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                    <input
-                                        type="file"
-                                        name="my_file"
-                                        ref={fileInputRef}
-                                        onChange={handleFileChange}
-                                        className="hidden"
-                                        accept=".pdf,.doc,.docx"
-                                        disabled={isSubmitting}
-                                    />
-                                    <Upload className="mx-auto text-gray-400 mb-2" size={24} />
-                                    <p className="text-sm text-gray-600">
-                                        {formData.resumeName ? (
-                                            <span className="text-vernovate-primary font-semibold">{formData.resumeName}</span>
-                                        ) : (
-                                            "Click to upload or drag and drop"
-                                        )}
-                                    </p>
-                                    <p className="text-xs text-gray-400 mt-1">PDF, DOC up to 5MB</p>
-                                </div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                                    <LinkIcon size={14} className="mr-1" /> Resume/CV (Google Drive Link)
+                                </label>
+                                <input
+                                    required
+                                    disabled={isSubmitting}
+                                    name="resume_link"
+                                    value={formData.resume_link}
+                                    onChange={handleChange}
+                                    type="url"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-black focus:ring-2 focus:ring-vernovate-primary/50 focus:border-vernovate-primary outline-none transition-all disabled:opacity-50"
+                                    placeholder="https://drive.google.com/..."
+                                />
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Please ensure the link is <strong>Public</strong> (Anyone with the link can view).
+                                </p>
+                            </div>
+
+                            {/* LinkedIn Link */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                                    <Linkedin size={14} className="mr-1" /> LinkedIn Profile
+                                </label>
+                                <input
+                                    required
+                                    disabled={isSubmitting}
+                                    name="linkedin"
+                                    value={formData.linkedin}
+                                    onChange={handleChange}
+                                    type="url"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-black focus:ring-2 focus:ring-vernovate-primary/50 focus:border-vernovate-primary outline-none transition-all disabled:opacity-50"
+                                    placeholder="https://linkedin.com/in/..."
+                                />
+                            </div>
+
+                            {/* GitHub Link */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                                    <Github size={14} className="mr-1" /> GitHub Profile
+                                </label>
+                                <input
+                                    disabled={isSubmitting} // Github optional? User said "along with github". I'll make it required if position is technical, but for now optional/required logic is complex. I'll make it text input so empty is fine, or simple url.
+                                    // I'll make it REQUIRED as per tone of "along with github".
+                                    required
+                                    name="github"
+                                    value={formData.github}
+                                    onChange={handleChange}
+                                    type="url"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-black focus:ring-2 focus:ring-vernovate-primary/50 focus:border-vernovate-primary outline-none transition-all disabled:opacity-50"
+                                    placeholder="https://github.com/..."
+                                />
                             </div>
 
                             <Button variant="primary" className="w-full justify-center mt-6 group" disabled={isSubmitting}>
