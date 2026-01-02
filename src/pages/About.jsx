@@ -1,10 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Users } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const About = () => {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 pt-32 pb-20">
+            <SEO
+                title="About Us"
+                description="Meet the team at Vernovate. A tech startup incubated at down town Venture Labs (dtvl), Assam Down Town University."
+            />
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <motion.h1
@@ -15,7 +20,7 @@ const About = () => {
                         Who <span className="text-vernovate-primary">We Are</span>
                     </motion.h1>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Vernovate is a future-focused technology company dedicated to building intelligent systems that solve real-world problems.
+                        Vernovate is a future-focused technology company <strong>incubated at down town Venture Labs (dtvl), Assam Down Town University</strong>. We are dedicated to building intelligent systems that solve real-world problems.
                     </p>
                 </div>
 

@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 import { Code, Cpu, Globe, Database, TrendingUp, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import StartProjectModal from '../components/StartProjectModal';
+import SEO from '../components/SEO';
 
 const Home = () => {
     const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
@@ -18,6 +19,11 @@ const Home = () => {
 
     return (
         <div>
+            <SEO
+                title="Home"
+                description="Vernovate | Leading Software Company in Guwahati, Incubated at dtvl AdtU. We build AI, Web, and Enterprise Solutions."
+                keywords="Vernovate, AdtU, Assam Down Town University, Software Company Guwahati, Best Startup Assam, AI Solutions"
+            />
             <Hero />
 
             <StartProjectModal isOpen={isProjectModalOpen} onClose={() => setIsProjectModalOpen(false)} />
