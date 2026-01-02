@@ -44,6 +44,7 @@ const SEO = ({ title, description, keywords, url = "https://vernovate.com" }) =>
             <title>{title ? `${title} | Vernovate` : siteTitle}</title>
             <meta name="description" content={description || defaultDescription} />
             <meta name="keywords" content={keywords || defaultKeywords} />
+            <meta name="google-site-verification" content="08zZoGJMhWLR8OTc1Ug_PWpVfvGqq8WTu940R7ukndU" />
             <link rel="canonical" href={url} />
 
             {/* Open Graph / Facebook / LinkedIn */}
