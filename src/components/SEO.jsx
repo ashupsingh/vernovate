@@ -2,15 +2,15 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, url = "https://vernovate.com" }) => {
-    const siteTitle = "Vernovate | Intelligent Systems & Software Solutions";
-    const defaultDescription = "Vernovate is a premier software development startup incubated at dtvl, Assam Down Town University (AdtU), Guwahati. We specialize in AI, Web Development, and Intelligent Systems.";
-    const defaultKeywords = "Vernovate, Software Company, AdtU Startup, dtvl incubation, Guwahati Tech, Assam Down Town University, Web Development, AI Solutions";
+    const siteTitle = "Vernovate Pvt Ltd | Intelligent Systems & Software Solutions";
+    const defaultDescription = "Vernovate Pvt Ltd is a premier software development startup incubated at dtvl, Assam Down Town University (AdtU), Guwahati. We specialize in AI, Web Development, and Intelligent Systems.";
+    const defaultKeywords = "Vernovate Pvt Ltd, Software Company, AdtU Startup, dtvl incubation, Guwahati Tech, Assam Down Town University, Web Development, AI Solutions";
 
     // Structured Data for Knowledge Graph (Location & Organization)
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Vernovate Private Limited",
+        "name": "Vernovate Pvt Ltd",
         "url": url,
         "logo": "https://vernovate.com/logo.png",
         "description": description || defaultDescription,
