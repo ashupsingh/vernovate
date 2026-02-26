@@ -19,6 +19,7 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
+            setIsOpen(false);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -151,20 +152,28 @@ const Navbar = () => {
                         </div>
                         <AnimatePresence>
                             {isOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                    transition={{ duration: 0.2, ease: "easeOut" }}
-                                    className="fixed inset-0 top-0 left-0 w-full min-h-screen bg-white z-50 flex flex-col justify-between pointer-events-auto"
-                                >
-                                    <div>
-                                        <div className="flex flex-col mt-8">
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="fixed inset-0 bg-black/30 z-40 pointer-events-auto"
+                                        onClick={() => setIsOpen(false)}
+                                    />
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                                        transition={{ duration: 0.2, ease: "easeOut" }}
+                                        className="fixed top-16 left-4 right-4 bg-white z-50 rounded-2xl shadow-xl border border-gray-100 overflow-hidden pointer-events-auto"
+                                    >
+                                        <div className="flex flex-col py-2">
                                             {navLinks.map((link) => (
                                                 <Link
                                                     key={link.name}
                                                     to={link.href}
-                                                    className={`px-4 py-3 text-sm font-medium flex items-center space-x-3 transition-colors ${isActive(link.href)
+                                                    className={`px-5 py-3 text-sm font-medium flex items-center space-x-3 transition-colors ${isActive(link.href)
                                                         ? 'bg-vernovate-primary/10 text-vernovate-primary border-l-4 border-vernovate-primary'
                                                         : 'text-gray-700 hover:bg-gray-50 hover:text-black'
                                                         }`}
@@ -175,13 +184,13 @@ const Navbar = () => {
                                                 </Link>
                                             ))}
                                         </div>
-                                        {/* Auth links in mobile menu */}
-                                        <div className="border-t border-gray-100 mt-1 pt-1">
+                                        {/* Auth links */}
+                                        <div className="border-t border-gray-100 py-2">
                                             {user ? (
                                                 <>
                                                     <Link
                                                         to="/profile"
-                                                        className={`px-4 py-3 text-sm font-medium flex items-center space-x-3 transition-colors ${isActive('/profile')
+                                                        className={`px-5 py-3 text-sm font-medium flex items-center space-x-3 transition-colors ${isActive('/profile')
                                                             ? 'bg-vernovate-primary/10 text-vernovate-primary border-l-4 border-vernovate-primary'
                                                             : 'text-gray-700 hover:bg-gray-50 hover:text-black'
                                                             }`}
@@ -193,7 +202,7 @@ const Navbar = () => {
                                                     {isAdmin && (
                                                         <Link
                                                             to="/admin"
-                                                            className="px-4 py-3 text-sm font-medium flex items-center space-x-3 text-vernovate-primary hover:bg-vernovate-primary/10 transition-colors"
+                                                            className="px-5 py-3 text-sm font-medium flex items-center space-x-3 text-vernovate-primary hover:bg-vernovate-primary/10 transition-colors"
                                                             onClick={() => setIsOpen(false)}
                                                         >
                                                             <Shield size={16} />
@@ -202,7 +211,7 @@ const Navbar = () => {
                                                     )}
                                                     <button
                                                         onClick={() => { handleLogout(); setIsOpen(false); }}
-                                                        className="w-full px-4 py-3 text-sm font-medium flex items-center space-x-3 text-red-500 hover:bg-red-50 transition-colors"
+                                                        className="w-full px-5 py-3 text-sm font-medium flex items-center space-x-3 text-red-500 hover:bg-red-50 transition-colors"
                                                     >
                                                         <LogOut size={16} />
                                                         <span>Logout</span>
@@ -211,7 +220,7 @@ const Navbar = () => {
                                             ) : (
                                                 <Link
                                                     to="/login"
-                                                    className="px-4 py-3 text-sm font-medium flex items-center space-x-3 text-vernovate-primary hover:bg-vernovate-primary/10 transition-colors"
+                                                    className="px-5 py-3 text-sm font-medium flex items-center space-x-3 text-vernovate-primary hover:bg-vernovate-primary/10 transition-colors"
                                                     onClick={() => setIsOpen(false)}
                                                 >
                                                     <LogIn size={16} />
@@ -219,19 +228,8 @@ const Navbar = () => {
                                                 </Link>
                                             )}
                                         </div>
-                                    </div>
-                                    {/* Bottom actions pinned to bottom */}
-                                    <div className="border-t border-gray-100 py-4 px-6 flex flex-col gap-2">
-                                        <Link to="/" className="flex items-center gap-2 text-gray-700 hover:text-black" onClick={() => setIsOpen(false)}>
-                                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left"><path d="M19 12H6M12 19l-7-7 7-7" /></svg>
-                                            <span>Back to Site</span>
-                                        </Link>
-                                        <button onClick={() => { handleLogout(); setIsOpen(false); }} className="flex items-center gap-2 text-red-500 hover:text-red-700">
-                                            <LogOut size={20} />
-                                            <span>Logout</span>
-                                        </button>
-                                    </div>
-                                </motion.div>
+                                    </motion.div>
+                                </>
                             )}
                         </AnimatePresence>
                     </div>
