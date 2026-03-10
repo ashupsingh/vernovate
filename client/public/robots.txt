@@ -31,3 +31,11 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /profile
+
+# Twitter crawler
+User-agent: Twitterbot
+Allow: /
+
+# Facebook crawler
+User-agent: facebookexternalhit
+Allow: /
