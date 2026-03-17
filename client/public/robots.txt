@@ -1,5 +1,5 @@
 # Vernovate Pvt Ltd - robots.txt
-# https://vernovate.com
+# https://www.vernovate.com
 
 User-agent: *
 Allow: /
@@ -16,7 +16,7 @@ Disallow: /profile
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://vernovate.com/sitemap.xml
+Sitemap: https://www.vernovate.com/sitemap.xml
 
 # Google specific
 User-agent: Googlebot
