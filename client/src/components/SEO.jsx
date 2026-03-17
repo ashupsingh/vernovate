@@ -11,6 +11,8 @@ const SEO = ({
     type = 'website',
     image,
     noindex = false,
+    breadcrumbs,
+    faqData,
     structuredData: extraStructuredData,
 }) => {
     const siteTitle = 'Vernovate Pvt Ltd | AI, IoT & Custom Software Development Company';
@@ -35,11 +37,13 @@ const SEO = ({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'Vernovate Pvt Ltd',
-        alternateName: 'Vernovate',
+        alternateName: ['Vernovate', 'Vernovate Private Limited'],
+        legalName: 'Vernovate Private Limited',
         url: SITE_URL,
         logo: `${SITE_URL}/logo.png`,
         description: defaultDescription,
         foundingDate: '2024',
+        numberOfEmployees: { '@type': 'QuantitativeValue', value: '5-10' },
         address: {
             '@type': 'PostalAddress',
             streetAddress: 'Down Town Venture Labs (DTVL), Assam Down Town University',
@@ -61,8 +65,41 @@ const SEO = ({
             'https://github.com/ashupsingh/vernovate',
         ],
         founder: [
-            { '@type': 'Person', name: 'Aditya Singh', jobTitle: 'CEO & Founder' },
-            { '@type': 'Person', name: 'Lungsom Lamnio', jobTitle: 'CTO & Founder' },
+            {
+                '@type': 'Person',
+                name: 'Aditya Singh',
+                jobTitle: 'CEO & Founder',
+                worksFor: { '@type': 'Organization', name: 'Vernovate Pvt Ltd' },
+                sameAs: ['https://www.linkedin.com/in/aditya-singh-1b7243291'],
+            },
+            {
+                '@type': 'Person',
+                name: 'Lungsom Lamnio',
+                jobTitle: 'CTO & Founder',
+                worksFor: { '@type': 'Organization', name: 'Vernovate Pvt Ltd' },
+                sameAs: ['https://www.linkedin.com/in/lungsom-lamnio-339914282'],
+            },
+            {
+                '@type': 'Person',
+                name: 'Debojyoti Paul',
+                jobTitle: 'Managing Director & Co-Founder',
+                worksFor: { '@type': 'Organization', name: 'Vernovate Pvt Ltd' },
+                sameAs: ['https://www.linkedin.com/in/debojyoti-paul-05b68021a/'],
+            },
+            {
+                '@type': 'Person',
+                name: 'Amit Sharma',
+                jobTitle: 'COO & Co-Founder',
+                worksFor: { '@type': 'Organization', name: 'Vernovate Pvt Ltd' },
+                sameAs: ['https://www.linkedin.com/in/amit-sharma-99a87a372'],
+            },
+            {
+                '@type': 'Person',
+                name: 'Ashutosh Pratap Singh',
+                jobTitle: 'CFO & Co-Founder',
+                worksFor: { '@type': 'Organization', name: 'Vernovate Pvt Ltd' },
+                sameAs: ['https://www.linkedin.com/in/ashupratapsingh/'],
+            },
         ],
         knowsAbout: [
             'Artificial Intelligence',
@@ -88,6 +125,36 @@ const SEO = ({
         isPartOf: { '@type': 'WebSite', name: 'Vernovate', url: SITE_URL },
         publisher: { '@type': 'Organization', name: 'Vernovate Pvt Ltd', url: SITE_URL },
     };
+
+    // BreadcrumbList structured data
+    const breadcrumbData = breadcrumbs
+        ? {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: breadcrumbs.map((crumb, index) => ({
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  name: crumb.name,
+                  item: crumb.path ? `${SITE_URL}${crumb.path}` : undefined,
+              })),
+          }
+        : null;
+
+    // FAQPage structured data
+    const faqSchema = faqData
+        ? {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqData.map((faq) => ({
+                  '@type': 'Question',
+                  name: faq.question,
+                  acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.answer,
+                  },
+              })),
+          }
+        : null;
 
     return (
         <Helmet>
@@ -133,6 +200,20 @@ const SEO = ({
             <script type="application/ld+json">
                 {JSON.stringify(webPageData)}
             </script>
+
+            {/* Structured Data — BreadcrumbList */}
+            {breadcrumbData && (
+                <script type="application/ld+json">
+                    {JSON.stringify(breadcrumbData)}
+                </script>
+            )}
+
+            {/* Structured Data — FAQPage */}
+            {faqSchema && (
+                <script type="application/ld+json">
+                    {JSON.stringify(faqSchema)}
+                </script>
+            )}
 
             {/* Optional extra structured data from page */}
             {extraStructuredData && (

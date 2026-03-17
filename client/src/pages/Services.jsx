@@ -15,6 +15,24 @@ const Services = () => {
                 path="/services"
                 description="Explore Vernovate's technology solutions — AI & Machine Learning, IoT & Embedded Systems, Custom Software Development, Smart City Solutions, Data Analytics, and Healthcare Tech. Enterprise-grade solutions built in India."
                 keywords="Vernovate services, AI development India, machine learning services, IoT solutions, embedded systems, custom software development, smart city technology, data analytics, healthcare tech, web development company Guwahati, full stack development, enterprise software"
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Services', path: '/services' }
+                ]}
+                faqData={[
+                    {
+                        question: 'What services does Vernovate Pvt Ltd offer?',
+                        answer: 'Vernovate offers Custom Software Development, AI & Machine Learning, IoT & Embedded Systems, Smart City Solutions, Data Analytics & Business Intelligence, and Healthcare Technology solutions.'
+                    },
+                    {
+                        question: 'Does Vernovate build AI and Machine Learning solutions?',
+                        answer: 'Yes, Vernovate specializes in building AI and Machine Learning solutions including predictive analytics, natural language processing, computer vision, and intelligent automation systems.'
+                    },
+                    {
+                        question: 'Can Vernovate build IoT solutions?',
+                        answer: 'Yes, Vernovate designs and develops IoT & Embedded Systems for real-time monitoring, smart agriculture, industrial automation, and connected device ecosystems.'
+                    },
+                ]}
             />
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">

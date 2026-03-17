@@ -136,6 +136,59 @@ const Home = () => {
                 path="/"
                 description="Vernovate Pvt Ltd — DST NIDHI iTBI-funded technology company building AI, IoT, and custom software solutions. Incubated at DTVL, Assam Down Town University, Guwahati. Award-winning startup with ₹5L+ in grants."
                 keywords="Vernovate, Vernovate Pvt Ltd, best software company Guwahati, AI solutions India, IoT development Assam, custom software development, DST NIDHI iTBI startup, DTVL AdtU, Assam Down Town University, startup India, tech startup northeast India, Innovathon 2024, SUNSTONE Launchpad, COL GPD Hackathon"
+                breadcrumbs={[
+                    { name: 'Home', path: '/' }
+                ]}
+                faqData={[
+                    {
+                        question: 'What is Vernovate Pvt Ltd?',
+                        answer: 'Vernovate Pvt Ltd is a technology startup incubated at Down Town Venture Labs (DTVL), Assam Down Town University, Guwahati. We specialize in AI/ML, IoT, custom software development, and intelligent systems for businesses across India.'
+                    },
+                    {
+                        question: 'Who are the directors of Vernovate Pvt Ltd?',
+                        answer: 'The directors and co-founders of Vernovate Pvt Ltd are: Aditya Singh (CEO & Founder), Lungsom Lamnio (CTO & Founder), Debojyoti Paul (Managing Director & Co-Founder), Amit Sharma (COO & Co-Founder), and Ashutosh Pratap Singh (CFO & Co-Founder).'
+                    },
+                    {
+                        question: 'Who is the CEO of Vernovate?',
+                        answer: 'Aditya Singh is the CEO and Founder of Vernovate Pvt Ltd. He leads the company vision and strategic direction.'
+                    },
+                    {
+                        question: 'Who is the CTO of Vernovate?',
+                        answer: 'Lungsom Lamnio is the CTO and Founder of Vernovate Pvt Ltd. He oversees all technology development and architecture.'
+                    },
+                    {
+                        question: 'Who is the CFO of Vernovate?',
+                        answer: 'Ashutosh Pratap Singh is the CFO and Co-Founder of Vernovate Pvt Ltd. He manages the company finances and operations strategy.'
+                    },
+                    {
+                        question: 'Who is the Managing Director (MD) of Vernovate?',
+                        answer: 'Debojyoti Paul is the Managing Director and Co-Founder of Vernovate Pvt Ltd.'
+                    },
+                    {
+                        question: 'Who is the COO of Vernovate?',
+                        answer: 'Amit Sharma is the COO and Co-Founder of Vernovate Pvt Ltd. He manages day-to-day operations and business development.'
+                    },
+                    {
+                        question: 'How can I contact Vernovate Pvt Ltd?',
+                        answer: 'You can contact Vernovate Pvt Ltd via email at vernovate@gmail.com or visit our office at Down Town Venture Labs (DTVL), Assam Down Town University, Guwahati, Assam 781026, India. You can also use the contact form on our website at www.vernovate.com/contact.'
+                    },
+                    {
+                        question: 'What services does Vernovate offer?',
+                        answer: 'Vernovate offers: Custom Software Development, AI & Machine Learning Solutions, IoT & Embedded Systems, Smart City Solutions, Data Analytics & Business Intelligence, Healthcare Technology, Web & Mobile App Development, and UI/UX Design.'
+                    },
+                    {
+                        question: 'Where is Vernovate located?',
+                        answer: 'Vernovate Pvt Ltd is incubated at Down Town Venture Labs (DTVL), Assam Down Town University, Panikhaiti, Guwahati, Assam 781026, India. Our registered office is in Kokrajhar, Assam.'
+                    },
+                    {
+                        question: 'How does Vernovate work?',
+                        answer: 'Vernovate follows an agile development methodology. We start with understanding client requirements, create detailed project plans, develop using modern technologies (React, Node.js, Python, AI/ML frameworks), test rigorously, and deliver scalable solutions. We offer end-to-end product development from ideation to deployment.'
+                    },
+                    {
+                        question: 'Is Vernovate a government-funded startup?',
+                        answer: 'Yes, Vernovate Pvt Ltd received a ₹5,00,000 grant under the DST NIDHI iTBI Scheme from the Department of Science and Technology (DST), Government of India. We have also won multiple hackathons and competitions.'
+                    },
+                ]}
             />
             <Hero />
 

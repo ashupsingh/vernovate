@@ -13,6 +13,10 @@ const Careers = () => {
                 path="/careers"
                 description="Join Vernovate Pvt Ltd — explore career and internship opportunities in AI, IoT, software development, and design. Work with a DST NIDHI-funded startup in Guwahati, Assam."
                 keywords="Vernovate careers, jobs at Vernovate, tech jobs Guwahati, software developer jobs Assam, AI engineer jobs India, startup jobs northeast India, internship Guwahati, Vernovate hiring"
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Careers', path: '/careers' }
+                ]}
             />
             <ApplicationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 

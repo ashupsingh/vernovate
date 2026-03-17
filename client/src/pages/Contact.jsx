@@ -11,6 +11,20 @@ const Contact = () => {
                 path="/contact"
                 description="Get in touch with Vernovate Pvt Ltd — discuss your next AI, IoT, or software project. Located at DTVL, Assam Down Town University, Guwahati, Assam. Email: vernovate@gmail.com"
                 keywords="contact Vernovate, Vernovate email, project inquiry, software consultation, hire developers Guwahati, technology partner India, Vernovate Guwahati address"
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Contact Us', path: '/contact' }
+                ]}
+                faqData={[
+                    {
+                        question: 'How can I contact Vernovate?',
+                        answer: 'You can email us at vernovate@gmail.com, visit our office at Down Town Venture Labs (DTVL), Assam Down Town University, Guwahati, Assam 781026, or use the contact form on our website.'
+                    },
+                    {
+                        question: 'Where is the Vernovate office located?',
+                        answer: 'Vernovate Pvt Ltd is located at Down Town Venture Labs (DTVL), Assam Down Town University, Panikhaiti, Guwahati, Assam 781026, India.'
+                    },
+                ]}
             />
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">

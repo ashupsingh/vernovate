@@ -11,6 +11,24 @@ const About = () => {
                 path="/about"
                 description="Learn about Vernovate Pvt Ltd — from a hackathon idea at Innovathon 2024 to a DST NIDHI-funded company. Meet our founders Aditya Singh (CEO) & Lungsom Lamnio (CTO), incubated at DTVL, Assam Down Town University."
                 keywords="about Vernovate, Vernovate team, Aditya Singh CEO, Lungsom Lamnio CTO, startup story, Vernovate founders, DTVL incubation, Assam Down Town University startup, Guwahati tech company"
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'About Us', path: '/about' }
+                ]}
+                faqData={[
+                    {
+                        question: 'Who founded Vernovate Pvt Ltd?',
+                        answer: 'Vernovate was co-founded by Aditya Singh (CEO), Lungsom Lamnio (CTO), Debojyoti Paul (Managing Director), Amit Sharma (COO), and Ashutosh Pratap Singh (CFO). It started as a hackathon idea at Innovathon 2024.'
+                    },
+                    {
+                        question: 'What is the vision of Vernovate?',
+                        answer: 'Vernovate\'s vision is to be the global leader in intelligent system innovation, creating a smarter, more connected world through AI, IoT, and custom software solutions.'
+                    },
+                    {
+                        question: 'Is Vernovate incubated at a university?',
+                        answer: 'Yes, Vernovate Pvt Ltd is incubated at Down Town Venture Labs (DTVL) at Assam Down Town University, Guwahati, Assam, India.'
+                    },
+                ]}
             />
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
