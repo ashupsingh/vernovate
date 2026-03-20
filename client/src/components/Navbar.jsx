@@ -62,10 +62,40 @@ const Navbar = () => {
     // Detect detail pages (e.g., /projects/xyz, /services/xyz) where the header should be hidden on desktop
     const isDetailPage = (/^\/projects\/.+/.test(location.pathname) || /^\/services\/.+/.test(location.pathname));
 
+    // Auto-hide sidebar on mouse idle
+    const [sidebarVisible, setSidebarVisible] = useState(true);
+    const idleTimerRef = useRef(null);
+
+    useEffect(() => {
+        const resetTimer = () => {
+            setSidebarVisible(true);
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+            idleTimerRef.current = setTimeout(() => setSidebarVisible(false), 3000);
+        };
+
+        window.addEventListener('mousemove', resetTimer);
+        window.addEventListener('mousedown', resetTimer);
+        window.addEventListener('scroll', resetTimer);
+
+        // Start the initial timer
+        idleTimerRef.current = setTimeout(() => setSidebarVisible(false), 3000);
+
+        return () => {
+            window.removeEventListener('mousemove', resetTimer);
+            window.removeEventListener('mousedown', resetTimer);
+            window.removeEventListener('scroll', resetTimer);
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+        };
+    }, []);
+
     return (
         <>
             {/* Desktop Vertical Sidebar */}
-            <nav className="hidden md:flex fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex-col gap-6">
+            <nav
+                className={`hidden md:flex fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex-col gap-6 transition-all duration-500 ${sidebarVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
+                onMouseEnter={() => { setSidebarVisible(true); if (idleTimerRef.current) clearTimeout(idleTimerRef.current); }}
+                onMouseLeave={() => { idleTimerRef.current = setTimeout(() => setSidebarVisible(false), 3000); }}
+            >
                 {navLinks.map((link) => {
                     const active = isActive(link.href);
                     return (
@@ -143,7 +173,7 @@ const Navbar = () => {
                             </button>
                         </div>
                         {/* Logo - desktop only */}
-                        <Link to="/" className="hidden md:flex items-center space-x-2">
+                        <Link to="/" className="hidden md:flex items-center space-x-2 pointer-events-auto">
                             <img src={logo} alt="Vernovate Logo" className="h-32 w-auto" />
                         </Link>
                         {/* VERNOVATE text - mobile only, top-right */}

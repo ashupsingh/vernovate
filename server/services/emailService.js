@@ -20,22 +20,38 @@ export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// Send OTP email with Vernovate branding
+// Reusable email header
+const getEmailHeader = (subtitle = 'Innovate the Future') => `
+        <div style="background:linear-gradient(135deg,#ffffff 0%,#fafafa 100%);padding:32px 40px;text-align:center;border-bottom:2px solid #FFB000;">
+          <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-1px;">
+            <span style="color:#1a1a1a;">VERNO</span><span style="color:#FFB000;">VATE</span><span style="color:#1a1a1a;"> PVT LTD</span>
+          </h1>
+          <p style="color:#999;font-size:12px;margin:8px 0 0;letter-spacing:2px;text-transform:uppercase;">${subtitle}</p>
+        </div>`;
+
+// Reusable email footer
+const getEmailFooter = () => `
+        <div style="background:#fafafa;padding:24px 40px 20px;text-align:center;border-top:1px solid #eee;">
+          <p style="color:#aaa;font-size:11px;margin:0;">&copy; ${new Date().getFullYear()} Vernovate Private Limited. All rights reserved.</p>
+        </div>`;
+
+
+// Send OTP email with Vernovate Pvt Ltd branding
 export const sendOTPEmail = async (email, otp, type = 'verify') => {
   const subjects = {
-    signup: 'Verify Your Vernovate Account',
-    login: 'Vernovate Login Verification',
-    reset: 'Reset Your Vernovate Password',
+    signup: 'Verify Your Vernovate Pvt Ltd Account',
+    login: 'Vernovate Pvt Ltd Login Verification',
+    reset: 'Reset Your Vernovate Pvt Ltd Password',
   };
 
   const headings = {
-    signup: 'Welcome to Vernovate!',
+    signup: 'Welcome to Vernovate Pvt Ltd!',
     login: 'Login Verification',
     reset: 'Password Reset Request',
   };
 
   const messages = {
-    signup: 'Thank you for joining Vernovate. Please verify your email to complete registration.',
+    signup: 'Thank you for joining Vernovate Pvt Ltd. Please verify your email to complete registration.',
     login: 'A login attempt was made on your account. Use the code below to continue.',
     reset: 'We received a request to reset your password. Use the code below to proceed.',
   };
@@ -50,13 +66,7 @@ export const sendOTPEmail = async (email, otp, type = 'verify') => {
     <body style="margin:0;padding:0;background-color:#f5f5f5;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
       <div style="max-width:520px;margin:40px auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
         
-        <!-- Header -->
-        <div style="background:linear-gradient(135deg,#ffffff 0%,#fafafa 100%);padding:32px 40px;text-align:center;border-bottom:2px solid #FFB000;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-1px;">
-            <span style="color:#1a1a1a;">VERNO</span><span style="color:#FFB000;">VATE</span>
-          </h1>
-          <p style="color:#999;font-size:12px;margin:8px 0 0;letter-spacing:2px;text-transform:uppercase;">Innovate the Future</p>
-        </div>
+        ${getEmailHeader()}
 
         <!-- Content -->
         <div style="padding:40px;">
@@ -73,19 +83,16 @@ export const sendOTPEmail = async (email, otp, type = 'verify') => {
           <p style="color:#999;font-size:12px;line-height:1.5;margin:0;">If you didn't request this, ignore this email.</p>
         </div>
 
-        <!-- Footer -->
-        <div style="background:#fafafa;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
-          <p style="color:#aaa;font-size:11px;margin:0;">© ${new Date().getFullYear()} Vernovate Private Limited. All rights reserved.</p>
-        </div>
+        ${getEmailFooter()}
       </div>
     </body>
     </html>
   `;
 
   const mailOptions = {
-    from: `"Vernovate" <${process.env.EMAIL_USER}>`,
+    from: `"Vernovate Pvt Ltd" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: subjects[type] || 'Vernovate Verification',
+    subject: subjects[type] || 'Vernovate Pvt Ltd Verification',
     html,
   };
 
@@ -121,13 +128,7 @@ export const sendConfirmationEmail = async (email, name, formType = 'contact') =
     <body style="margin:0;padding:0;background-color:#f5f5f5;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
       <div style="max-width:520px;margin:40px auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
         
-        <!-- Header -->
-        <div style="background:linear-gradient(135deg,#ffffff 0%,#fafafa 100%);padding:32px 40px;text-align:center;border-bottom:2px solid #FFB000;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-1px;">
-            <span style="color:#1a1a1a;">VERNO</span><span style="color:#FFB000;">VATE</span>
-          </h1>
-          <p style="color:#999;font-size:12px;margin:8px 0 0;letter-spacing:2px;text-transform:uppercase;">Innovate the Future</p>
-        </div>
+        ${getEmailHeader()}
 
         <!-- Content -->
         <div style="padding:40px;">
@@ -143,22 +144,16 @@ export const sendConfirmationEmail = async (email, name, formType = 'contact') =
           <p style="color:#999;font-size:12px;line-height:1.5;margin:16px 0 0;">We look forward to working with you!</p>
         </div>
 
-        <!-- Footer -->
-        <div style="background:#fafafa;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
-          <p style="color:#888;font-size:11px;margin:0 0 4px;">
-            <a href="https://vernovate.com" style="color:#FFB000;text-decoration:none;font-weight:600;">vernovate.com</a>
-          </p>
-          <p style="color:#aaa;font-size:11px;margin:0;">© ${new Date().getFullYear()} Vernovate Private Limited. All rights reserved.</p>
-        </div>
+        ${getEmailFooter()}
       </div>
     </body>
     </html>
   `;
 
   const mailOptions = {
-    from: `"Vernovate" <${process.env.EMAIL_USER}>`,
+    from: `"Vernovate Pvt Ltd" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: `We received your ${label.toLowerCase()} — Vernovate`,
+    subject: `We received your ${label.toLowerCase()} — Vernovate Pvt Ltd`,
     html,
   };
 
@@ -188,18 +183,12 @@ export const sendAdminNotificationEmail = async ({ name, email, subject, message
     <body style="margin:0;padding:0;background-color:#f5f5f5;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
       <div style="max-width:520px;margin:40px auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
         
-        <!-- Header -->
-        <div style="background:linear-gradient(135deg,#ffffff 0%,#fafafa 100%);padding:32px 40px;text-align:center;border-bottom:2px solid #FFB000;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-1px;">
-            <span style="color:#1a1a1a;">VERNO</span><span style="color:#FFB000;">VATE</span>
-          </h1>
-          <p style="color:#999;font-size:12px;margin:8px 0 0;letter-spacing:2px;text-transform:uppercase;">Admin Notification</p>
-        </div>
+        ${getEmailHeader('Admin Notification')}
 
         <!-- Content -->
         <div style="padding:40px;">
           <h2 style="color:#1a1a1a;font-size:22px;margin:0 0 12px;font-weight:700;">New ${label}</h2>
-          <p style="color:#555555;font-size:14px;line-height:1.6;margin:0 0 24px;">You have received a new submission on the Vernovate website.</p>
+          <p style="color:#555555;font-size:14px;line-height:1.6;margin:0 0 24px;">You have received a new submission on the Vernovate Pvt Ltd website.</p>
           
           <!-- Details -->
           <div style="background:linear-gradient(135deg,rgba(255,176,0,0.08) 0%,rgba(255,176,0,0.04) 100%);border:1px solid rgba(255,176,0,0.25);border-radius:12px;padding:24px;margin:0 0 24px;">
@@ -229,20 +218,17 @@ export const sendAdminNotificationEmail = async ({ name, email, subject, message
             <p style="color:#333;font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap;">${message}</p>
           </div>
 
-          <p style="color:#777;font-size:13px;line-height:1.5;margin:0;">You can reply to this submission from the <a href="${process.env.CLIENT_URL || 'https://vernovate.com'}/admin/messages" style="color:#FFB000;text-decoration:none;font-weight:600;">Admin Dashboard</a>.</p>
+          <p style="color:#777;font-size:13px;line-height:1.5;margin:0;">You can reply to this submission from the <a href="${process.env.CLIENT_URL || 'https://www.vernovate.com'}/admin/messages" style="color:#FFB000;text-decoration:none;font-weight:600;">Admin Dashboard</a>.</p>
         </div>
 
-        <!-- Footer -->
-        <div style="background:#fafafa;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
-          <p style="color:#aaa;font-size:11px;margin:0;">© ${new Date().getFullYear()} Vernovate Private Limited. All rights reserved.</p>
-        </div>
+        ${getEmailFooter()}
       </div>
     </body>
     </html>
   `;
 
   const mailOptions = {
-    from: `"Vernovate" <${process.env.EMAIL_USER}>`,
+    from: `"Vernovate Pvt Ltd" <${process.env.EMAIL_USER}>`,
     to: adminEmail,
     replyTo: email,
     subject: `[${label}] ${subject || `New submission from ${name}`}`,
@@ -266,13 +252,7 @@ export const sendReplyEmail = async (email, recipientName, replyMessage, origina
     <body style="margin:0;padding:0;background-color:#f5f5f5;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
       <div style="max-width:520px;margin:40px auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
         
-        <!-- Header -->
-        <div style="background:linear-gradient(135deg,#ffffff 0%,#fafafa 100%);padding:32px 40px;text-align:center;border-bottom:2px solid #FFB000;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-1px;">
-            <span style="color:#1a1a1a;">VERNO</span><span style="color:#FFB000;">VATE</span>
-          </h1>
-          <p style="color:#999;font-size:12px;margin:8px 0 0;letter-spacing:2px;text-transform:uppercase;">Innovate the Future</p>
-        </div>
+        ${getEmailHeader()}
 
         <!-- Content -->
         <div style="padding:40px;">
@@ -289,27 +269,24 @@ export const sendReplyEmail = async (email, recipientName, replyMessage, origina
           
           <!-- Signature -->
           <div style="margin-top:28px;padding-top:20px;border-top:1px solid #eee;">
-            <p style="color:#1a1a1a;font-size:14px;font-weight:600;margin:0 0 4px;">The Vernovate Team</p>
+            <p style="color:#1a1a1a;font-size:14px;font-weight:600;margin:0 0 4px;">The Vernovate Pvt Ltd Team</p>
             <p style="color:#999;font-size:12px;margin:0;">
-              <a href="https://vernovate.com" style="color:#FFB000;text-decoration:none;">vernovate.com</a> · 
+              <a href="https://www.vernovate.com" style="color:#FFB000;text-decoration:none;">vernovate.com</a> · 
               <a href="mailto:vernovate@gmail.com" style="color:#FFB000;text-decoration:none;">vernovate@gmail.com</a>
             </p>
           </div>
         </div>
 
-        <!-- Footer -->
-        <div style="background:#fafafa;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
-          <p style="color:#aaa;font-size:11px;margin:0;">© ${new Date().getFullYear()} Vernovate Private Limited. All rights reserved.</p>
-        </div>
+        ${getEmailFooter()}
       </div>
     </body>
     </html>
   `;
 
   const mailOptions = {
-    from: `"Vernovate" <${process.env.EMAIL_USER}>`,
+    from: `"Vernovate Pvt Ltd" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: `Re: ${originalSubject || 'Your inquiry'} — Vernovate`,
+    subject: `Re: ${originalSubject || 'Your inquiry'} — Vernovate Pvt Ltd`,
     html,
   };
 

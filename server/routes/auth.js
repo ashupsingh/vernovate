@@ -8,9 +8,9 @@ import { cloudinary, upload } from '../config/cloudinary.js';
 
 const router = express.Router();
 
-// Helper: create JWT
+// Helper: create JWT (1 hour session)
 const createToken = (userId) => {
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
 // ──────────────────────────────────────

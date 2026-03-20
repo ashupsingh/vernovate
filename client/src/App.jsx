@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -20,6 +21,20 @@ const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const Users = lazy(() => import('./pages/admin/Users'));
 const Messages = lazy(() => import('./pages/admin/Messages'));
 const Settings = lazy(() => import('./pages/admin/Settings'));
+
+// Dynamic Canonical SEO component
+const CanonicalSEO = () => {
+  const location = useLocation();
+  const path = location.pathname === '/' ? '' : location.pathname.replace(/\/$/, '');
+  const canonicalUrl = `https://www.vernovate.com${path}`;
+
+  return (
+    <Helmet>
+      <link rel="canonical" href={canonicalUrl} />
+      <meta property="og:url" content={canonicalUrl} />
+    </Helmet>
+  );
+};
 
 // Layout wrapper that conditionally shows Navbar/Footer
 const AppLayout = () => {
@@ -97,12 +112,15 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <ScrollToTop />
-        <AppLayout />
-      </AuthProvider>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <AuthProvider>
+          <CanonicalSEO />
+          <ScrollToTop />
+          <AppLayout />
+        </AuthProvider>
+      </Router>
+    </HelmetProvider>
   );
 }
 
