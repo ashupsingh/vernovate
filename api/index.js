@@ -15,8 +15,22 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 
 // ──── Middleware ────
+// Allowed origins for CORS (credentials:true is incompatible with origin:'*')
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    'http://localhost:5173',
+    'http://localhost:3000',
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || '*',
+    origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, Postman, server-to-server)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, false);
+        }
+    },
     credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -38,6 +52,9 @@ const ensureDbConnected = async (req, res, next) => {
         }
         next();
     } catch (err) {
+        console.error('Database connection failed:', err.message);
+        // Reset so next request retries the connection
+        isConnected = false;
         res.status(500).json({ message: 'Database connection failed' });
     }
 };
