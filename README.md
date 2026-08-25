@@ -1,5 +1,7 @@
-# React + Vite
-
+# This is vernovate's official  website repo
+# In this project a developed a proper website for vernovate start up 
+# It have admin dashboard and user dashboard
+# user's can login and signup to website to message or they can apply for positions or to connect with he admin for project leads.
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
